@@ -12,7 +12,7 @@ import { catchError, tap } from 'rxjs/operators';
 export class HeroService {
   private heroesUrl = 'api/heroes';
   httpOptions = {
-    headers: new HttpHeaders({ 'COntent-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(
