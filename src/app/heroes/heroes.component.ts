@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
+import { Select, Store } from '@ngxs/store';
+import * as HeroActions from '../store/hero.action';
+import { Observable, of } from 'rxjs';
+import { withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'app-heroes',
@@ -8,28 +12,32 @@ import { HeroService } from '../hero.service';
   styleUrls: ['./heroes.component.scss']
 })
 export class HeroesComponent implements OnInit {
-  heroes: Hero[];
+  @Select(state => state.heroes) heroes$: Observable<Hero[]>;
 
-  constructor(private heroService: HeroService) { }
+  constructor(
+    private heroService: HeroService,
+    private store: Store
+  ) { }
 
   ngOnInit(): void {
     this.getHeroes();
   }
 
   getHeroes(): void {
-    this.heroService.getHeroes()
-      .subscribe(heroes => this.heroes = heroes);
+    this.store.dispatch(new HeroActions.FetchHeroes())
+      .pipe(withLatestFrom(this.heroes$))
+      .subscribe(([_, heroes]) => {
+        this.heroes$ = of(heroes);
+      });
   }
 
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
-    this.heroService.addHero({ name } as Hero)
-      .subscribe(hero => this.heroes.push(hero));
+    this.store.dispatch(new HeroActions.AddHero({ name } as Hero));
   }
 
   delete(hero: Hero): void {
-    this.heroes = this.heroes.filter(h => h !== hero);
-    this.heroService.deleteHero(hero).subscribe();
+    this.store.dispatch(new HeroActions.DeleteHero(hero));
   }
 }
