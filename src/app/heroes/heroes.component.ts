@@ -12,11 +12,12 @@ import { withLatestFrom } from 'rxjs/operators';
   styleUrls: ['./heroes.component.scss']
 })
 export class HeroesComponent implements OnInit {
-  @Select(state => state.heroes) heroes$: Observable<Hero[]>;
+  // @Select(state => state.heroes) heroes$: Observable<Hero[]>;
+  heroes = [];
 
   constructor(
     private heroService: HeroService,
-    private store: Store
+    // private store: Store
   ) { }
 
   ngOnInit(): void {
@@ -24,20 +25,20 @@ export class HeroesComponent implements OnInit {
   }
 
   getHeroes(): void {
-    this.store.dispatch(new HeroActions.FetchHeroes())
-      .pipe(withLatestFrom(this.heroes$))
-      .subscribe(([_, heroes]) => {
-        this.heroes$ = of(heroes);
-      });
+    // this.store.dispatch(new HeroActions.FetchHeroes())
+    //   .pipe(withLatestFrom(this.heroes$))
+    //   .subscribe(([_, heroes]) => {
+    //     this.heroes$ = of(heroes);
+    //   });
   }
 
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
-    this.store.dispatch(new HeroActions.AddHero({ name } as Hero));
+    // this.store.dispatch(new HeroActions.AddHero({ name } as Hero));
   }
 
   delete(hero: Hero): void {
-    this.store.dispatch(new HeroActions.DeleteHero(hero));
+    // this.store.dispatch(new HeroActions.DeleteHero(hero));
   }
 }

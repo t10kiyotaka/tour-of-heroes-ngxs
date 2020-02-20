@@ -3,6 +3,7 @@ import { Hero } from '../hero';
 import * as HeroActions from './hero.action';
 import { HeroService } from '../hero.service';
 import { tap } from 'rxjs/operators';
+import { Inject, Injectable } from '@angular/core';
 
 export interface HeroStateModel {
   selectedHero: Hero;
@@ -16,8 +17,14 @@ export interface HeroStateModel {
     heroes: []
   }
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class HeroState {
+
   constructor(private heroService: HeroService) {}
+
+  // TODO: Check below @Selector is needed or not.
 
   @Selector()
   static getHeroes(state: HeroStateModel) {
