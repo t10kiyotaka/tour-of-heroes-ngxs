@@ -11,5 +11,5 @@ export class FetchHeroes {
 
 export class DeleteHero {
   static readonly type = '[Hero] Delete Hero';
-  constructor(public payload: Hero | number) {}
+  constructor(public payload: number) {}
 }
