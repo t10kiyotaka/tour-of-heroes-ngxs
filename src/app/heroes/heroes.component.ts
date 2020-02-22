@@ -17,7 +17,7 @@ export class HeroesComponent implements OnInit {
 
   constructor(
     private heroService: HeroService,
-    // private store: Store
+    private store: Store
   ) { }
 
   ngOnInit(): void {
@@ -25,11 +25,12 @@ export class HeroesComponent implements OnInit {
   }
 
   getHeroes(): void {
-    // this.store.dispatch(new HeroActions.FetchHeroes())
-    //   .pipe(withLatestFrom(this.heroes$))
-    //   .subscribe(([_, heroes]) => {
-    //     this.heroes$ = of(heroes);
-    //   });
+    // TODO: Check withLatestFrom
+    this.store.dispatch(new HeroActions.GetHeroes())
+      .pipe(withLatestFrom(this.heroes))
+      .subscribe(([_, heroes]) => {
+        this.heroes = heroes;
+      });
   }
 
   add(name: string): void {

@@ -5,8 +5,13 @@ export class AddHero {
   constructor(public payload: Hero) {}
 }
 
-export class FetchHeroes {
-  static readonly type = '[Hero] Fetch Heroes';
+export class GetHeroes {
+  static readonly type = '[Hero] Get Heroes';
+}
+
+export class UpdateHero {
+  static readonly type = '[Hero] Update Hero';
+  constructor(public payload: Hero) {}
 }
 
 export class DeleteHero {
