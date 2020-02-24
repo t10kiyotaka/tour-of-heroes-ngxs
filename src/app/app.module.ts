@@ -14,6 +14,7 @@ import { HeroState } from './store/hero.state';
 import { HttpClientModule } from '@angular/common/http';
 import { InMemoryDataService } from './in-memory-data.service';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
     ),
-    NgxsModule.forRoot([HeroState])
+    NgxsModule.forRoot([HeroState]),
+    NgxsLoggerPluginModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

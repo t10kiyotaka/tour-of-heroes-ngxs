@@ -5,6 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import * as HeroActions from '../store/hero.action';
 import { Observable, of } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
+import { HeroState } from '../store/hero.state';
 
 @Component({
   selector: 'app-heroes',
@@ -12,8 +13,7 @@ import { withLatestFrom } from 'rxjs/operators';
   styleUrls: ['./heroes.component.scss']
 })
 export class HeroesComponent implements OnInit {
-  // @Select(state => state.heroes) heroes$: Observable<Hero[]>;
-  heroes = [];
+  @Select(HeroState.heroes) heroes$: Observable<Hero[]>;
 
   constructor(
     private heroService: HeroService,
@@ -25,21 +25,16 @@ export class HeroesComponent implements OnInit {
   }
 
   getHeroes(): void {
-    // TODO: Check withLatestFrom
-    this.store.dispatch(new HeroActions.GetHeroes())
-      .pipe(withLatestFrom(this.heroes))
-      .subscribe(([_, heroes]) => {
-        this.heroes = heroes;
-      });
+    this.store.dispatch(new HeroActions.GetHeroes());
   }
 
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
-    // this.store.dispatch(new HeroActions.AddHero({ name } as Hero));
+    this.store.dispatch(new HeroActions.AddHero({ name } as Hero));
   }
 
   delete(hero: Hero): void {
-    // this.store.dispatch(new HeroActions.DeleteHero(hero));
+    this.store.dispatch(new HeroActions.DeleteHero(hero.id));
   }
 }

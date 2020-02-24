@@ -1,4 +1,4 @@
-import { Action, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Hero } from '../hero';
 import * as HeroActions from './hero.action';
 import { HeroService } from '../hero.service';
@@ -24,9 +24,19 @@ export class HeroState {
 
   constructor(private heroService: HeroService) {}
 
+  @Selector()
+  static heroes(state: HeroStateModel) {
+    return state.heroes;
+  }
+
+  @Selector()
+  static selectedHero(state: HeroStateModel) {
+    return state.selectedHero;
+  }
+
   @Action(HeroActions.GetHeroes)
   getHeroes(ctx: StateContext<HeroStateModel>) {
-    this.heroService.getHeroes().pipe(
+    return this.heroService.getHeroes().pipe(
       tap((resData: Hero[]) => {
         ctx.patchState({ heroes: resData });
       })
@@ -35,7 +45,7 @@ export class HeroState {
 
   @Action(HeroActions.AddHero)
   addHero(ctx: StateContext<HeroStateModel>, action: HeroActions.AddHero) {
-    this.heroService.addHero(action.payload).pipe(
+    return this.heroService.addHero(action.payload).pipe(
       tap((resData: Hero) => {
         const state = ctx.getState();
         ctx.patchState({ heroes: [...state.heroes, resData] });
@@ -46,7 +56,7 @@ export class HeroState {
   @Action(HeroActions.UpdateHero)
   updateHero(ctx: StateContext<HeroStateModel>, action: HeroActions.UpdateHero) {
     const heroForUpdate = action.payload;
-    this.heroService.updateHero(heroForUpdate).pipe(
+    return this.heroService.updateHero(heroForUpdate).pipe(
       tap((resData: Hero) => {
         const state = ctx.getState();
         const updatedHeroes = state.heroes.map(hero => {
@@ -59,7 +69,7 @@ export class HeroState {
 
   @Action(HeroActions.DeleteHero)
   deleteHero(ctx: StateContext<HeroStateModel>, action: HeroActions.DeleteHero) {
-    this.heroService.deleteHero(action.payload).pipe(
+    return this.heroService.deleteHero(action.payload).pipe(
       tap(() => {
         const state = ctx.getState();
         const updatedHeroes = state.heroes.filter(hero => hero.id !== action.payload);
