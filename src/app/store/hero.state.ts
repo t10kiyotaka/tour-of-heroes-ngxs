@@ -34,6 +34,15 @@ export class HeroState {
     return state.selectedHero;
   }
 
+  @Action(HeroActions.GetHero)
+  getHero(ctx: StateContext<HeroStateModel>, action: HeroActions.GetHero) {
+    return this.heroService.getHero(action.payload).pipe(
+      tap((resData: Hero) => {
+        ctx.patchState({ selectedHero: resData });
+      })
+    );
+  }
+
   @Action(HeroActions.GetHeroes)
   getHeroes(ctx: StateContext<HeroStateModel>) {
     return this.heroService.getHeroes().pipe(

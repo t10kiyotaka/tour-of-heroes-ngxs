@@ -5,6 +5,11 @@ export class AddHero {
   constructor(public payload: Hero) {}
 }
 
+export class GetHero {
+  static readonly type = '[Hero] Get Hero';
+  constructor(public payload: number) {}
+}
+
 export class GetHeroes {
   static readonly type = '[Hero] Get Heroes';
 }
