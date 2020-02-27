@@ -11,7 +11,6 @@ import { HeroState } from '../store/hero.state';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  heroes: Hero[] = [];
   @Select(HeroState.heroes) heroes$: Observable<Hero[]>;
 
   constructor(private store: Store) { }

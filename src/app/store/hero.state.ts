@@ -69,7 +69,9 @@ export class HeroState {
       tap((resData: Hero) => {
         const state = ctx.getState();
         const updatedHeroes = state.heroes.map(hero => {
-          if (hero.id === heroForUpdate.id) { return heroForUpdate; }
+          if (hero.id === heroForUpdate.id) {
+            return heroForUpdate;
+          } else { return hero; }
         });
         ctx.patchState({ heroes: updatedHeroes });
       })

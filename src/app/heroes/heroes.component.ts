@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
-import { HeroService } from '../hero.service';
 import { Select, Store } from '@ngxs/store';
 import * as HeroActions from '../store/hero.action';
 import { Observable, of } from 'rxjs';
-import { withLatestFrom } from 'rxjs/operators';
 import { HeroState } from '../store/hero.state';
 
 @Component({
@@ -16,7 +14,6 @@ export class HeroesComponent implements OnInit {
   @Select(HeroState.heroes) heroes$: Observable<Hero[]>;
 
   constructor(
-    private heroService: HeroService,
     private store: Store
   ) { }
 
